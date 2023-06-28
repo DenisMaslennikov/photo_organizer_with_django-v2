@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }}{% endblock title %}{{ title }}
+
+{% block content %}
+  <div class="container-fluid tm-container-content tm-mt-60">
+    <div class="row mb-4">
+      <h2 class="col-5 tm-text-primary">
+        {{ title }}
+      </h2>
+      <div class="col-7 d-flex justify-content-end align-items-center">
+        {% if user.is_authenticated %}
+          <form action="{% url 'gallery:add_tag' %}" class="tm-text-primary" method="post" id="tag_selector">
+            {% csrf_token %}
+            {{ tag_form.category.label }} {{ tag_form.category }} {{ tag_form.name.label }} {{ tag_form.name }}
+            <input type="hidden" name="next" value="{{ request.get_full_path }}">
+            {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+          </form>
+        {% endif %}
+        <form action="" class="tm-text-primary" method="get">
+          <label for="page">Страница</label> <input id="page" name="page" type="text" value="{{ page_obj.number }}" size="1" class="tm-input-paging tm-text-primary"> из {{ paginator.num_pages }}.&nbsp;
+          {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+        </form>
+        <form action="" class="tm-text-primary" method="get">
+          <label for="paginated_by">Изображений на страницу:</label> <input id="paginated_by" name="paginated_by" type="text" value="{{ paginated_by }}" size="1" class="tm-input-paging tm-text-primary">&nbsp;
+          {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+        </form>
+      </div>
+    </div>
+    <div class="row tm-mb-90 tm-gallery">
+      {% for image in page_obj %}
+        {% include 'gallery/includes/thumb.html' %}
+      {% endfor %}    
+    </div> <!-- row -->
+    <div class="row tm-mb-90">
+      <div class="col-12 d-flex justify-content-between align-items-center tm-paging-col">
+        <a
+          href="{% if page_obj.has_previous %}?page={{ page_obj.previous_page_number }}{% if q %}&q={{ q }}{% endif %}{% else %}javascript:void(0);{% endif %}"
+          class="btn btn-primary tm-btn-prev mb-2 {% if not page_obj.has_previous %}disabled{% endif %}"
+        >Previous</a>
+        <div class="tm-paging d-flex">
+          {% for p in paginator.page_range %}
+            {% if p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+              <a href="{% if p == page_obj.number %}javascript:void(0);{% else %}?page={{ p }}{% if q %}&q={{ q }}{% endif %}{% endif %}"
+                class="{% if p == page_obj.number %}active{% endif %} tm-paging-link">{{ p }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <a 
+        href="{% if page_obj.has_next %}?page={{ page_obj.next_page_number }}{% if q %}&q={{ q }}{% endif %}{% else %}javascript:void(0);{% endif %}"
+        class="btn btn-primary tm-btn-prev mb-2 {% if not page_obj.has_next %}disabled{% endif %}"
+      >Next Page</a>
+      </div>      
+    </div>
+  </div> <!-- container-fluid, tm-container-content -->
+{% endblock content %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% block content %}
+
+<div class="container-fluid tm-mt-60">
+  <div class="row tm-mb-50">
+    <div class="col-lg-4 col-12 mb-5">
+      <form action="" class="tm-text-primary" method="POST" id="add_image" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Загрузить</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

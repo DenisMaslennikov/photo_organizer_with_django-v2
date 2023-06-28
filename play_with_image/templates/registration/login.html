@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}
+  Авторизация
+{% endblock %}
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col">
+    </div>
+    <div class="col-3">
+      {% if next %}
+        {% if user.is_authenticated %}
+          <span>У вас нет доступа к этой странице. Войдите в аккаунт который имеет доступ</span>
+        {% else %}
+          <span>Пожалуйста авторизируйтесь для просмотра этой страницы</span>
+        {% endif %}
+      {% endif %}
+      <form method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <input type="submit" class="btn-primary" value="Войти">
+        <a href="{% url 'users:password_reset' %}">Забыли пароль?</a>
+        <input type="hidden" name="next" value="{{ next }}">
+      </form>
+    </div>
+    <div class="col">
+    </div>
+  </div>
+{% endblock %}

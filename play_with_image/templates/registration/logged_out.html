@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}
+  Выход
+{% endblock %}
+{% block content %}
+<div class="card text-center">
+  <div class="card-header">
+    <h2>Вы вышли из системы!</h2>
+  </div>
+  <div class="card-body">
+    <p><a href="{% url 'gallery:index' %}">На главную</a></p>
+  </div>
+ </div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+{% load django_bootstrap5 %}
+{% block title %}Просмотр изображения "{{ image.name }}"{% endblock title %}
+  <!-- Page Loader -->
+{% block content %}
+  <div class="container-fluid tm-container-content tm-mt-60">
+    <div class="row mb-4">
+      <h2 class="col-12 tm-text-primary">{{ image.name }}</h2>
+    </div>
+    <div class="row tm-mb-90">
+      <div class="col-xl-8 col-lg-7 col-md-6 col-sm-12">
+        {% thumbnail image.image "1200" upscale=False as im %}
+          <img src="{{ im.url }}" alt="{{ image.image_name }}" class="img-fluid">
+        {% endthumbnail %}
+      </div>
+      <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12">
+        <div class="tm-bg-gray tm-video-details">
+          <div class="text-center mb-5">
+            <a href="{{ image.image.url }}" class="btn btn-primary tm-btn-big">Скачать</a>
+          </div>
+          <div class="mb-4 d-flex flex-wrap">
+            <div class="mr-4 mb-2">
+              <span class="tm-text-gray-dark">Размеры: </span><span class="tm-text-primary">{{ image.image.height }} x {{ image.image.width }}</span>
+            </div>
+          </div>
+          <div>
+            <h3 class="tm-text-gray-dark mb-3">Загружено:</h3> <a href="{% url 'gallery:user_profile' image.author.username %}">{{ image.author.username }}</a>
+            <h3 class="tm-text-gray-dark mb-3">Tags:</h3>
+            {% include 'gallery/includes/taglist.html' with tags=image.tags.all %}
+            {% if user == image.author %}
+              <br>
+              <form method="post" action="{% url 'gallery:update_image' image.pk %}">
+                {% csrf_token %}
+                {{ form.as_div }}
+                <input type="submit" class="btn-primary" value="Сохранить">
+              </form>
+            {% endif %}
+            <h3 class="tm-text-gray-dark mb-3">EXIF:</h3>
+            {% if image.camera_model %} <span class="text-secondary">Снято на</span> <a href="{% url 'gallery:photo_by' image.camera_model %}"> {{ image.camera_model }}</a> {% endif %}
+            {% if image.lens_model %} <span class="text-secondary">c</span> <a href="{% url 'gallery:photo_by' image.lens_model %}"> {{ image.lens_model }}</a> {% endif %}
+            <br>
+            {% if image.iso %}<span class="text-secondary">ISO: </span><span class="text-success">{{ image.iso }}</span> {% endif %}
+            {% if image.focal_length %} <span class="text-secondary">Фокусное Расстояние: </span><span class="text-success">{{ image.focal_length }}</span> {% endif %}
+            {% if image.f %} <span class="text-secondary">F: </span><span class="text-success">{{ image.f }}</span> {% endif %}
+            {% if image.exposure_time %}<span class="text-secondary">Время экспозиции: </span><span class="text-success">{{ image.exposure_time }}</span>{% endif %}
+            {% if image.flash is not None %}{% if image.flash %}<span class="text-secondary">Вспышка:</span> <span class="text-success">ДА</span>{% else %}<span class="text-secondary">Вспышка:</span> <span class="text-success">НЕТ</span>{% endif %}{% endif %}
+            <!--<div id="map" style="width: 475px; height: 400px" ></div>-->
+            {% if image.longitude %}
+              <br>
+              <a href="https://www.google.com/maps/place/{{ image.longitude }}%20{{ image.latitude }}" target="_blank">Место на карте</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        {% for comment in comments %}
+          <a href="{% url 'gallery:user_profile' comment.author.username %}">{{ comment.author.username }}</a> {{ comment.created }}
+          <p>{{ comment.text }}</p>
+          <hr>
+        {% endfor %}
+        {% if user.is_authenticated %}
+          <form action="{% url 'gallery:add_comment' image.pk %}" method="post">
+            {% csrf_token %}
+            {% bootstrap_form comment_form %}
+            {% bootstrap_button button_type='submit' content='Отправить' %}
+          </form>
+        {% endif %}
+      </div>
+      <div class="col-9">
+        <div class="col">
+          <h2 class="tm-text-primary">
+            Похожие изображения:
+          </h2>
+        </div>
+        <div class="row mb-3 tm-gallery">
+          {% for image in related %}
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12 mb-5">
+              <figure class="effect-ming tm-video-item">
+                {% thumbnail image.image "450" upscale=False as im %}
+                  <img src="{{ im.url }}" alt="{{ image.name }}" class="img-fluid">
+                {% endthumbnail %}
+                <figcaption class="d-flex align-items-center justify-content-center">
+                  <h2>{{ image.name }}</h2>
+                  <a href="{% url 'gallery:image' image.pk %}">View more</a>
+                </figcaption>
+              </figure>
+              <div class="d-flex justify-content-between tm-text-gray">
+                {% include 'gallery/includes/taglist.html' with tags=image.tags.all %}
+              </div>
+            </div>
+          {% endfor %}
+        </div> <!-- row -->
+      </div>
+    </div>
+
+  </div> <!-- container-fluid, tm-container-content -->
+{% endblock content %}

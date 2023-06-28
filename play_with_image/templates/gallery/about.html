@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ title }}{% endblock title %}
+{% block content %}
+  <div class="container-fluid tm-mt-60">
+    <div class="row mb-4">
+      <h2 class="col-12 tm-text-primary">
+        Вы используете супер-пупер органайзер фотографий теперь на Django!
+      </h2>
+    </div>
+    <div class="row tm-mb-74 tm-row-1640">      
+      <div class="col-lg-5 col-md-6 col-12 mb-3">
+        <img src="{% static 'img/about.jpg' %}" alt="Image" class="img-fluid">
+      </div>
+      <div class="col-lg-7 col-md-6 col-12">
+        <div class="tm-about-img-text">
+          <p class="mb-4">
+           Только с помощью нашего супер-пупер ораганайзера вы наведете порядок в своих картинках и сможете назначить им теги</p>
+        </div>        
+      </div>
+    </div>
+  </div> <!-- container-fluid, tm-container-content -->
+{% endblock content %}

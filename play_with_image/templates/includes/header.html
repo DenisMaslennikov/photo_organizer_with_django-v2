@@ -1,0 +1,72 @@
+{% load static %}
+<div id="loader-wrapper">
+  <div id="loader"></div>
+
+  <div class="loader-section section-left"></div>
+  <div class="loader-section section-right"></div>
+
+</div> 
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">
+      <i class="fas fa-film mr-2"></i>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="fas fa-bars"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+      {% with request.resolver_match.view_name as view_name %}
+        <li class="nav-item">
+          <a class="nav-link nav-link-1{% if view_name in 'gallery:index,gallery:tag_view,gallery:image' %} active{% endif %}" 
+            aria-current="page" href="{% url 'gallery:index' %}"
+            >Картинки</a>
+        </li>
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link nav-link-2{% if view_name in 'gallery:add_image' %} active{% endif %}"
+             href="{% url 'gallery:add_image' %}"
+              >Добавить изображение</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link nav-link-3{% if view_name == 'users:registration' %} active{% endif %}"
+              href="{% url 'users:edit_profile' %}"
+              >{{ user.username }}</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link{% if view_name == 'users:login' %} active{% endif %}"
+            href="{% url 'users:logout' %}"
+            >Выход</a>
+        </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link nav-link-2{% if view_name == 'users:registration' %} active{% endif %}"
+              href="{% url 'users:registration' %}"
+              >Регистрация</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link nav-link-3{% if view_name == 'users:login' %} active{% endif %}"
+            href="{% url 'users:login' %}"
+            >Авторизация</a>
+        </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link nav-link-4{% if view_name == 'gallery:about' %} active{% endif %}"
+            href="{% url 'gallery:about' %}"
+            >О проекте</a>
+        </li>
+      {% endwith %}
+    </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="tm-hero d-flex justify-content-center align-items-center" data-parallax="scroll" data-image-src="{% static 'img/hero.jpg' %}">
+  <form action="{% url 'gallery:search' %}" class="d-flex tm-search-form" method="get" >
+    <input name="q" class="form-control tm-search-input" type="search" placeholder="Поиск" aria-label="Search" value="{{ q }}">
+    <button class="btn btn-outline-success tm-search-btn" type="submit">
+      <i class="fas fa-search"></i>
+    </button>
+  </form>
+</div>
