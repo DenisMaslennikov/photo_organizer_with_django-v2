@@ -12,7 +12,7 @@ urlpatterns = [
         name='tag_view',
     ),
     path(
-        'photo_by/<str:model>/',
+        'photo-by/<str:model>/',
         views.PhotoByListView.as_view(),
         name='photo_by',
     ),
@@ -34,6 +34,6 @@ urlpatterns = [
         name='update_image',
     ),
     path('add-image/', views.ImageCreateView.as_view(), name='add_image'),
-    path('add_tag/', views.add_tag, name='add_tag'),
+    path('add-tag/', views.add_tag, name='add_tag'),
     path('search/', views.SearchListView.as_view(), name='search')
 ]

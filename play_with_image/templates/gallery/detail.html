@@ -32,7 +32,7 @@
               <br>
               <form method="post" action="{% url 'gallery:update_image' image.pk %}">
                 {% csrf_token %}
-                {{ form.as_div }}
+                {{ image_update_form.as_div }}
                 <input type="submit" class="btn-primary" value="Сохранить">
               </form>
             {% endif %}

@@ -1,5 +1,7 @@
 import os
+import random
 import time
+from datetime import timedelta
 from typing import Type
 
 import pytest
@@ -7,9 +9,22 @@ import pytest
 from mixer.backend.django import mixer as _mixer
 from django.test.client import Client
 
+from django.conf import settings
 from django.db.models import Model
 from django.contrib.auth import get_user_model
-from django.urls import reverse
+
+
+IMAGES_AMOUNT = settings.PAGINATED_BY * 5
+TAGS_AMOUNT = 5
+CATEGORY_AMOUNT = 2
+TAGS_PER_IMAGE = 2
+CAMERA_MODEL = 'Canon 5d mark iv'
+COMMENT_AMOUNT = 10
+
+
+pytest_plugins = [
+    'fixtures.urls',
+]
 
 
 @pytest.fixture
@@ -18,7 +33,7 @@ def mixer():
 
 
 @pytest.fixture
-def user_model():
+def user_model() -> Type[Model]:
     return get_user_model()
 
 
@@ -91,14 +106,17 @@ def comment_model() -> Type[Model]:
 
 @pytest.fixture
 def image(mixer, image_model, user):
-    image = mixer.blend(image_model, author=user)
+    image = mixer.blend(image_model, author=user, camera_model=CAMERA_MODEL)
     return image
 
 
 @pytest.fixture
-def comment(mixer, comment_model):
-    comment = mixer.blend(comment_model)
-    return comment
+def comments(mixer, comment_model, image):
+    comments = mixer.cycle(COMMENT_AMOUNT).blend(comment_model, image=image)
+    for index, comment in enumerate(comments):
+        comment.created = comment.created - timedelta(days=index)
+        comment.save()
+    return comments
 
 
 @pytest.fixture
@@ -120,18 +138,35 @@ def tagged_image(image, tag):
 
 
 @pytest.fixture
-def get_image_url(image):
-    return reverse('gallery:image', args=(image.pk,))
+def images(mixer, image_model, user):
+    images = mixer.cycle(IMAGES_AMOUNT).blend(
+        image_model, camera_model=CAMERA_MODEL, author=user
+    )
+    for index, image in enumerate(images):
+        image.created = image.created - timedelta(days=index)
+    return images
 
 
 @pytest.fixture
-def get_user_profile_url(user):
-    return reverse('gallery:user_profile', args=(user.username, ))
+def categories(mixer, tag_category_model):
+    categories = mixer.cycle(CATEGORY_AMOUNT).blend(tag_category_model)
+    return categories
 
 
 @pytest.fixture
-def get_photo_by_url(image):
-    return reverse('gallery:photo_by', args=(image.camera_model, ))
+def tags(mixer, tag_model, categories):
+    tags = mixer.cycle(TAGS_AMOUNT).blend(
+        tag_model, category=categories[random.randint(0, len(categories)) - 1]
+    )
+    return tags
+
+
+@pytest.fixture
+def tagged_images(images, tags):
+    for image in images:
+        for _ in range(TAGS_PER_IMAGE):
+            image.tags.add(tags[random.randint(0, len(tags) - 1)])
+    return images
 
 
 @pytest.fixture(scope='session', autouse=True)

@@ -68,8 +68,8 @@ class BaseImageListView(ListView):
         logger.debug('Получаем базовый контекст')
         context = super().get_context_data(*args, **kwargs)
         context['paginated_by'] = self.get_paginate_by(self.queryset)
-        context['tag_form'] = AssignTag()
-
+        if self.request.user.is_authenticated:
+            context['tag_form'] = AssignTag()
         return context
 
     def get_paginate_by(self, queryset):
@@ -109,6 +109,7 @@ class SearchListView(BaseImageListView):
 
 class IndexListView(BaseImageListView):
     """Главная страница"""
+    allow_empty = True
     def get_context_data(self, *args, **kwargs):
         logger.debug('Получаем контекст главной страницы')
         context = super().get_context_data(*args, **kwargs)
@@ -119,17 +120,18 @@ class IndexListView(BaseImageListView):
 class TagImageListView(BaseImageListView):
     """Просмотр тега"""
     def get_context_data(self, *args, **kwargs):
-        logger.debug('Получаем контекст страницы тега')
-        context = super().get_context_data(*args, **kwargs)
         tag_slug = self.kwargs.get('tag_slug')
+        logger.debug(f'Получаем контекст страницы тега {tag_slug}')
+        context = super().get_context_data(*args, **kwargs)
         tag = Tag.objects.get(slug=tag_slug)
         context['title'] = f'Просмотр тега {tag.name}'
         return context
 
     def get_queryset(self):
-        logger.debug('Получаем кверисет страницы тега')
+        tag_slug = self.kwargs.get('tag_slug')
+        logger.debug(f'Получаем кверисет страницы тега {tag_slug}')
         return super().get_queryset().filter(
-            tags__slug=self.kwargs.get('tag_slug')
+            tags__slug=tag_slug
         )
 
 
@@ -229,9 +231,11 @@ class ImageDetailView(DetailView):
 
         context['related'] = related[:settings.RELATED_IMAGES]
         form = ImageUpdateForm(instance=self.object)
-        context['form'] = form
+        if self.request.user == self.object.author:
+            context['image_update_form'] = form
         comment_form = CommentForm()
-        context['comment_form'] = comment_form
+        if self.request.user.is_authenticated:
+            context['comment_form'] = comment_form
         context['comments'] = Comment.objects.filter(
             image=self.kwargs['pk']
         ).select_related('author')
@@ -249,7 +253,7 @@ class ImageCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ImageUpdateView(UpdateView):
+class ImageUpdateView(LoginRequiredMixin, UpdateView):
     """Редактирование информации об изображении"""
     model = Image
     form_class = ImageUpdateForm
