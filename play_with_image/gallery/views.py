@@ -135,6 +135,7 @@ class TagImageListView(BaseImageListView):
 
 class UserImageListView(BaseImageListView):
     """Изображения пользователя"""
+    allow_empty = True
     def get_queryset(self):
         logger.debug('Получаем кверисет страницы пользователя')
         if self.request.user.username == self.kwargs.get('username'):
@@ -235,11 +236,6 @@ class ImageDetailView(DetailView):
             image=self.kwargs['pk']
         ).select_related('author')
         return context
-
-
-class AboutTemplateView(TemplateView):
-    """Страница 'о проекте'"""
-    template_name = 'gallery/about.html'
 
 
 class ImageCreateView(LoginRequiredMixin, CreateView):

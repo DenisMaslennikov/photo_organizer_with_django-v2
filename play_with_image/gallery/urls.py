@@ -33,7 +33,6 @@ urlpatterns = [
         views.ImageUpdateView.as_view(),
         name='update_image',
     ),
-    path('about/', views.AboutTemplateView.as_view(), name='about'),
     path('add-image/', views.ImageCreateView.as_view(), name='add_image'),
     path('add_tag/', views.add_tag, name='add_tag'),
     path('search/', views.SearchListView.as_view(), name='search')

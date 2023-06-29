@@ -12,4 +12,6 @@
 2. Комментарии от пользователей для изображений
 3. Покрытие кода тестами
 
-Для более подробного описания проекта смотрите patch_note.md
+Для более подробного описания проекта смотрите [patch_note.md]
+
+[patch_note.md]: <https://github.com/DenisMaslennikov/photo_organizer_with_django-v2/blob/main/patch_note.md>

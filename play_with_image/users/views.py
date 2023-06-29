@@ -1,6 +1,7 @@
 from django.views.generic import CreateView, UpdateView
 from django.contrib.auth import views as auth_views, get_user_model
 from django.urls import reverse, reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import LoginForm, NewUserForm, UserUpdateForm
 
@@ -26,7 +27,7 @@ class LoginView(auth_views.LoginView):
         )
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(LoginRequiredMixin, UpdateView):
     model = Users
     form_class = UserUpdateForm
     template_name = 'registration/registration.html'

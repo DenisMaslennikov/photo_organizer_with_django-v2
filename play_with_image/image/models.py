@@ -164,8 +164,7 @@ class Image(models.Model):
             self.exposure_time = get_exposure_time(image_exif)
             self.longitude = get_longitude(image_exif)
             self.latitude = get_latitude(image_exif)
-
-        except UnicodeDecodeError as error:
+        except Exception as error:
             logger.error(error, exc_info=True)
         if not self.image_hash:
             logger.debug('Определяем хеш изображения')
