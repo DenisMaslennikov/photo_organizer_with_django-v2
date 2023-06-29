@@ -110,6 +110,7 @@ class SearchListView(BaseImageListView):
 class IndexListView(BaseImageListView):
     """Главная страница"""
     allow_empty = True
+
     def get_context_data(self, *args, **kwargs):
         logger.debug('Получаем контекст главной страницы')
         context = super().get_context_data(*args, **kwargs)
@@ -138,6 +139,7 @@ class TagImageListView(BaseImageListView):
 class UserImageListView(BaseImageListView):
     """Изображения пользователя"""
     allow_empty = True
+
     def get_queryset(self):
         logger.debug('Получаем кверисет страницы пользователя')
         if self.request.user.username == self.kwargs.get('username'):

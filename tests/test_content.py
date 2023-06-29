@@ -15,6 +15,7 @@ LIST_VIEW_ENDPOINTS = [
 
 IMAGE_DETAIL_ENDPOINT = lazy_fixture('get_image_url')
 
+
 @pytest.mark.django_db
 @pytest.mark.parametrize(
     'endpoint', LIST_VIEW_ENDPOINTS
@@ -50,7 +51,7 @@ def test_tag_form(active_client, form, endpoint):
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    "active_client, form",[
+    "active_client, form", [
         (lazy_fixture('unlogged_client'), False),
         (lazy_fixture('user_client'), True),
         (lazy_fixture('another_user_client'), False),
@@ -70,13 +71,13 @@ def test_image_update_form_on_image_page(active_client, form, endpoint):
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    "active_client, form",[
+    "active_client, form", [
         (lazy_fixture('unlogged_client'), False),
         (lazy_fixture('user_client'), True),
     ]
 )
 @pytest.mark.parametrize(
-    'endpoint',[IMAGE_DETAIL_ENDPOINT, ]
+    'endpoint', [IMAGE_DETAIL_ENDPOINT, ]
 )
 def test_comment_form_visibly(endpoint, active_client, form):
     response = active_client.get(endpoint)
