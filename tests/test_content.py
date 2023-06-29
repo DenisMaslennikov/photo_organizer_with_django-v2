@@ -61,6 +61,7 @@ def test_tag_form(active_client, form, endpoint):
     'endpoint', [IMAGE_DETAIL_ENDPOINT, ]
 )
 def test_image_update_form_on_image_page(active_client, form, endpoint):
+    """Проверяем видимость формы редактирования изображения"""
     response = active_client.get(endpoint)
     assert ('image_update_form' in response.context) == form, (
         f'Проверьте что форма редактирования {"не" if not form else ""} '
@@ -80,6 +81,7 @@ def test_image_update_form_on_image_page(active_client, form, endpoint):
     'endpoint', [IMAGE_DETAIL_ENDPOINT, ]
 )
 def test_comment_form_visibly(endpoint, active_client, form):
+    """Проверяем видимость формы комментариев"""
     response = active_client.get(endpoint)
     assert ('comment_form' in response.context) == form, (
         f'Проверьте что форма комментариев {"не" if not form else ""} '
