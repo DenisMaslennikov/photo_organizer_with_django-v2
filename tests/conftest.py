@@ -5,17 +5,28 @@ from datetime import timedelta
 from typing import Type
 
 import pytest
-
 from mixer.backend.django import mixer as _mixer
-from django.test.client import Client
+from pytest_lazyfixture import lazy_fixture
 
+from django.urls import reverse
+from django.test.client import Client
 from django.conf import settings
 from django.db.models import Model
 from django.contrib.auth import get_user_model
 
 
-IMAGES_AMOUNT = settings.PAGINATED_BY * 5
-TAGS_AMOUNT = 5
+LIST_VIEW_ENDPOINTS = [
+    reverse('gallery:index'),
+    reverse('gallery:search'),
+    lazy_fixture('get_user_profile_url'),
+    lazy_fixture('get_photo_by_url'),
+    lazy_fixture('get_tag_url'),
+]
+
+IMAGE_DETAIL_ENDPOINT = lazy_fixture('get_image_url')
+
+IMAGES_AMOUNT = settings.PAGINATED_BY * 10
+TAGS_AMOUNT = 3
 CATEGORY_AMOUNT = 2
 TAGS_PER_IMAGE = 2
 CAMERA_MODEL = 'Canon 5d mark iv'
@@ -24,6 +35,7 @@ COMMENT_AMOUNT = 10
 
 pytest_plugins = [
     'fixtures.urls',
+    'fixtures.request_data'
 ]
 
 

@@ -152,20 +152,24 @@ class Image(models.Model):
     def save(self, *args, **kwargs):
         logger.debug('Сохранение изображения')
         super().save(*args, **kwargs)
-        try:
-            logger.debug('Читаем EXIF')
-            image_exif = get_exif(self.image.path)
-            self.camera_model = get_camera_model(image_exif)
-            self.lens_model = get_lens_model(image_exif)
-            self.iso = get_iso(image_exif)
-            self.focal_length = get_focal_length(image_exif)
-            self.flash = bool(get_flash(image_exif))
-            self.f = get_f_number(image_exif)
-            self.exposure_time = get_exposure_time(image_exif)
-            self.longitude = get_longitude(image_exif)
-            self.latitude = get_latitude(image_exif)
-        except Exception as error:
-            logger.error(error, exc_info=True)
+        if (
+                self.image.path.endswith('.jpg')
+                or self.image.path.endswith('.jpeg')
+        ):
+            try:
+                logger.debug('Читаем EXIF')
+                image_exif = get_exif(self.image.path)
+                self.camera_model = get_camera_model(image_exif)
+                self.lens_model = get_lens_model(image_exif)
+                self.iso = get_iso(image_exif)
+                self.focal_length = get_focal_length(image_exif)
+                self.flash = bool(get_flash(image_exif))
+                self.f = get_f_number(image_exif)
+                self.exposure_time = get_exposure_time(image_exif)
+                self.longitude = get_longitude(image_exif)
+                self.latitude = get_latitude(image_exif)
+            except Exception as error:
+                logger.error(error, exc_info=True)
         if not self.image_hash:
             logger.debug('Определяем хеш изображения')
             self.image_hash = str(get_average_image_hash(self.image.path))

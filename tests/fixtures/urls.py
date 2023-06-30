@@ -35,3 +35,8 @@ def get_add_comment_url(image) -> str:
 @pytest.fixture
 def get_image_update_url(image) -> str:
     return reverse('gallery:update_image', args=(image.pk, ))
+
+
+@pytest.fixture
+def get_image_update_url(image) -> str:
+    return reverse('gallery:update_image', args=(image.pk, ))

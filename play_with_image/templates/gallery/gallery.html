@@ -14,7 +14,6 @@
             {% csrf_token %}
             {{ tag_form.category.label }} {{ tag_form.category }} {{ tag_form.name.label }} {{ tag_form.name }}
             <input type="hidden" name="next" value="{{ request.get_full_path }}">
-            {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
           </form>
         {% endif %}
         <form action="" class="tm-text-primary" method="get">

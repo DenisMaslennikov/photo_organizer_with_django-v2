@@ -4,16 +4,7 @@ from django.conf import settings
 from django.urls import reverse
 from pytest_lazyfixture import lazy_fixture
 
-
-LIST_VIEW_ENDPOINTS = [
-    reverse('gallery:index'),
-    reverse('gallery:search'),
-    lazy_fixture('get_user_profile_url'),
-    lazy_fixture('get_photo_by_url'),
-    lazy_fixture('get_tag_url'),
-]
-
-IMAGE_DETAIL_ENDPOINT = lazy_fixture('get_image_url')
+from conftest import IMAGE_DETAIL_ENDPOINT, LIST_VIEW_ENDPOINTS
 
 
 @pytest.mark.django_db

@@ -49,7 +49,6 @@ LOGIN_REQURE_ENDPOINTS = [
     reverse('gallery:add_image'),
     reverse('gallery:add_tag'),
     lazy_fixture('get_add_comment_url'),
-    lazy_fixture('get_image_update_url'),
 ]
 
 @pytest.mark.django_db

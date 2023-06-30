@@ -5,7 +5,7 @@
 <div class="container-fluid tm-mt-60">
   <div class="row tm-mb-50">
     <div class="col-lg-4 col-12 mb-5">
-      <form action="" class="tm-text-primary" method="POST" id="add_image" enctype="multipart/form-data">
+      <form action="" class="tm-text-primary" method="post" id="add_image" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="form-group">
         {{ form.as_p }}

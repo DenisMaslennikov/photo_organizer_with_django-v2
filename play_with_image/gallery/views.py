@@ -1,5 +1,6 @@
 from pytils.translit import slugify
 
+from django.core.exceptions import PermissionDenied
 from django.db.utils import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
@@ -259,6 +260,12 @@ class ImageUpdateView(LoginRequiredMixin, UpdateView):
     """Редактирование информации об изображении"""
     model = Image
     form_class = ImageUpdateForm
+
+    def dispatch(self, request, *args, **kwargs):
+        image = get_object_or_404(Image, pk=self.kwargs.get('pk'))
+        if self.request.user == image.author:
+            return super().dispatch(request, *args, **kwargs)
+        return redirect('gallery:image', pk=self.kwargs.get('pk'))
 
 
 class AddCommentCreateView(LoginRequiredMixin, CreateView):
