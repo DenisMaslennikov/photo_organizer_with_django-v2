@@ -7,6 +7,8 @@ from conftest import LIST_VIEW_ENDPOINTS
 
 ADD_IMAGE_ENDPOINT = reverse('gallery:add_image')
 UPDATE_IMAGE_ENDPOINT = lazy_fixture('get_image_update_url')
+ADD_TAG = reverse('gallery:add_tag')
+
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
@@ -102,12 +104,22 @@ def test_image_update_form(
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
+    'endpoint', [ADD_TAG, ]
+)
+@pytest.mark.parametrize(
     'active_client, result', [
         (lazy_fixture('unlogged_client'), False),
-        (lazy_fixture('another_user_client'), False),
+        (lazy_fixture('another_user_client'), True),
         (lazy_fixture('user_client'), True),
     ]
 )
-def test_tag_form():
-    pass
-
+def test_tag_form(active_client, result, endpoint, set_tag_form_post_data, image_model):
+    response = active_client.post(endpoint, set_tag_form_post_data)
+    for pk in set_tag_form_post_data['choices']:
+        image = image_model.objects.get(pk=pk)
+        assert (len(image.tags.filter(name=set_tag_form_post_data['name']))
+                > 0) == result, (
+            f'Проверьте что {"анонимный" if result else "зарегистрированный"} '
+            f'пользователь {"не" if not result else ""} может добавлять теги '
+            f'изображениямпш'
+        )

@@ -41,7 +41,7 @@ def set_tag_form_post_data(images, categories):
     return {
         'category':categories[random.randint(0,len(categories) - 1)].pk,
         'name': 'New Tag Name',
-        'choices': [images[random.randint(0, len(images) - 1)]
+        'choices': [images[random.randint(0, len(images) - 1)].pk
                     for _ in range(10)],
     }
 
