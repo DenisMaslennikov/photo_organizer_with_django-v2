@@ -4,7 +4,11 @@ from django.conf import settings
 from django.urls import reverse
 from pytest_lazyfixture import lazy_fixture
 
-from conftest import IMAGE_DETAIL_ENDPOINT, LIST_VIEW_ENDPOINTS
+from conftest import (
+    IMAGE_DETAIL_ENDPOINT,
+    LIST_VIEW_ENDPOINTS,
+    USER_PROFILE_ENDPOINT,
+)
 
 
 @pytest.mark.django_db
@@ -29,7 +33,7 @@ def test_pagination(endpoint, tagged_images, unlogged_client):
     ]
 )
 @pytest.mark.parametrize(
-    'endpoint', LIST_VIEW_ENDPOINTS
+    'endpoint', USER_PROFILE_ENDPOINT
 )
 def test_tag_form(active_client, form, endpoint):
     """Проверяем наличие/отсутствие формы тегов в контексте"""
@@ -49,7 +53,7 @@ def test_tag_form(active_client, form, endpoint):
     ]
 )
 @pytest.mark.parametrize(
-    'endpoint', [IMAGE_DETAIL_ENDPOINT, ]
+    'endpoint', IMAGE_DETAIL_ENDPOINT
 )
 def test_image_update_form_on_image_page(active_client, form, endpoint):
     """Проверяем видимость формы редактирования изображения"""
@@ -69,7 +73,7 @@ def test_image_update_form_on_image_page(active_client, form, endpoint):
     ]
 )
 @pytest.mark.parametrize(
-    'endpoint', [IMAGE_DETAIL_ENDPOINT, ]
+    'endpoint', IMAGE_DETAIL_ENDPOINT
 )
 def test_comment_form_visibly(endpoint, active_client, form):
     """Проверяем видимость формы комментариев"""

@@ -17,11 +17,11 @@
           </form>
         {% endif %}
         <form action="" class="tm-text-primary" method="get">
-          <label for="page">Страница</label> <input id="page" name="page" type="text" value="{{ page_obj.number }}" size="1" class="tm-input-paging tm-text-primary"> из {{ paginator.num_pages }}.&nbsp;
+          <label for="page">Страница</label> <input id="page" name="page" type="text" inputmode="numeric" pattern="\d*" value="{{ page_obj.number }}" size="1" class="tm-input-paging tm-text-primary"> из {{ paginator.num_pages }}.&nbsp;
           {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
         </form>
         <form action="" class="tm-text-primary" method="get">
-          <label for="paginated_by">Изображений на страницу:</label> <input id="paginated_by" name="paginated_by" type="text" value="{{ paginated_by }}" size="1" class="tm-input-paging tm-text-primary">&nbsp;
+          <label for="paginated_by">Изображений на страницу:</label> <input id="paginated_by" name="paginated_by" type="text" inputmode="numeric" pattern="\d*" value="{{ paginated_by }}" size="1" class="tm-input-paging tm-text-primary">&nbsp;
           {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
         </form>
       </div>

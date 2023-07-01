@@ -42,7 +42,8 @@ def add_tag(request):
             tag_slug = slugify(tag_form.cleaned_data['name'].title().strip())
             tag = Tag.objects.get(slug=tag_slug)
         for image in tag_form.cleaned_data['choices']:
-            image.tags.add(tag.pk)
+            if image.author == request.user:
+                image.tags.add(tag.pk)
 
     if next_page := request.POST.get('next'):
         return redirect(next_page)
@@ -69,8 +70,6 @@ class BaseImageListView(ListView):
         logger.debug('Получаем базовый контекст')
         context = super().get_context_data(*args, **kwargs)
         context['paginated_by'] = self.get_paginate_by(self.queryset)
-        if self.request.user.is_authenticated:
-            context['tag_form'] = AssignTag()
         return context
 
     def get_paginate_by(self, queryset):
@@ -80,8 +79,10 @@ class BaseImageListView(ListView):
                 self.request.session['paginated_by'] = int(
                     self.request.GET.get('paginated_by')
                 )
-            except ValueError:
+            except ValueError as error:
+                logger.error(error, exc_info=True)
                 self.request.session['paginated_by'] = settings.PAGINATED_BY
+
         return self.request.session.get('paginated_by', settings.PAGINATED_BY)
 
 
@@ -164,6 +165,8 @@ class UserImageListView(BaseImageListView):
             Users,
             username=self.kwargs.get('username')
         )
+        if context['user'] == self.request.user:
+            context['tag_form'] = AssignTag()
         context['title'] = (
             f'Галерея пользователя {self.kwargs.get("username")}')
         return context

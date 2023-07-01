@@ -14,7 +14,47 @@ from django.conf import settings
 from django.db.models import Model
 from django.contrib.auth import get_user_model
 
-
+ANONYMOUS_ENDPOINTS = [
+    # Эндпоинты приложения users
+    reverse('users:logout'),
+    reverse('users:login'),
+    reverse('users:registration'),
+    reverse('users:password_reset'),
+    reverse('users:password_reset_complete'),
+    reverse('users:password_reset_done'),
+    # Эндпоинты приложения pages
+    reverse('pages:about'),
+    # Эндпоинты приложения  gallery
+    reverse('gallery:index'),
+    lazy_fixture('get_image_url'),
+    reverse('gallery:search'),
+    lazy_fixture('get_user_profile_url'),
+    lazy_fixture('get_photo_by_url'),
+    lazy_fixture('get_tag_url'),
+]
+AUTH_USER_ENDPOINTS = [
+    # Эндпоинты приложения users
+    reverse('users:edit_profile'),
+    reverse('users:password_change'),
+    reverse('users:password_change_done'),
+    # Эндпоинты приложения gallery
+    reverse('gallery:index'),
+    lazy_fixture('get_image_url'),
+    reverse('gallery:search'),
+    lazy_fixture('get_user_profile_url'),
+    lazy_fixture('get_photo_by_url'),
+    reverse('gallery:add_image'),
+    lazy_fixture('get_tag_url'),
+]
+LOGIN_REQURE_ENDPOINTS = [
+    # Эндпоинты приложения users
+    reverse('users:password_change'),
+    reverse('users:password_change_done'),
+    # Эндпоинты приложения gallery
+    reverse('gallery:add_image'),
+    reverse('gallery:add_tag'),
+    lazy_fixture('get_add_comment_url'),
+]
 LIST_VIEW_ENDPOINTS = [
     reverse('gallery:index'),
     reverse('gallery:search'),
@@ -22,8 +62,11 @@ LIST_VIEW_ENDPOINTS = [
     lazy_fixture('get_photo_by_url'),
     lazy_fixture('get_tag_url'),
 ]
-
-IMAGE_DETAIL_ENDPOINT = lazy_fixture('get_image_url')
+IMAGE_DETAIL_ENDPOINT = [lazy_fixture('get_image_url'), ]
+USER_PROFILE_ENDPOINT = [lazy_fixture('get_user_profile_url'), ]
+ADD_IMAGE_ENDPOINT = [reverse('gallery:add_image'), ]
+UPDATE_IMAGE_ENDPOINT = [lazy_fixture('get_image_update_url'), ]
+ADD_TAG = [reverse('gallery:add_tag'), ]
 
 IMAGES_AMOUNT = settings.PAGINATED_BY * 10
 TAGS_AMOUNT = 3

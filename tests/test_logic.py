@@ -3,11 +3,12 @@ from pytest_lazyfixture import lazy_fixture
 
 from django.urls import reverse
 
-from conftest import LIST_VIEW_ENDPOINTS
-
-ADD_IMAGE_ENDPOINT = reverse('gallery:add_image')
-UPDATE_IMAGE_ENDPOINT = lazy_fixture('get_image_update_url')
-ADD_TAG = reverse('gallery:add_tag')
+from conftest import (
+    LIST_VIEW_ENDPOINTS,
+    ADD_TAG,
+    ADD_IMAGE_ENDPOINT,
+    UPDATE_IMAGE_ENDPOINT,
+)
 
 
 @pytest.mark.django_db
@@ -18,7 +19,7 @@ ADD_TAG = reverse('gallery:add_tag')
     ]
 )
 @pytest.mark.parametrize(
-    'endpoint', [ADD_IMAGE_ENDPOINT, ]
+    'endpoint', ADD_IMAGE_ENDPOINT
 )
 def test_add_image(
         image_model, active_client, result, add_image_post_data, endpoint
@@ -72,7 +73,7 @@ def test_paginated_by_form(
     ]
 )
 @pytest.mark.parametrize(
-    'endpoint', [UPDATE_IMAGE_ENDPOINT, ]
+    'endpoint', UPDATE_IMAGE_ENDPOINT
 )
 def test_image_update_form(
         endpoint,
@@ -104,12 +105,12 @@ def test_image_update_form(
 
 @pytest.mark.django_db
 @pytest.mark.parametrize(
-    'endpoint', [ADD_TAG, ]
+    'endpoint', ADD_TAG
 )
 @pytest.mark.parametrize(
     'active_client, result', [
         (lazy_fixture('unlogged_client'), False),
-        (lazy_fixture('another_user_client'), True),
+        (lazy_fixture('another_user_client'), False),
         (lazy_fixture('user_client'), True),
     ]
 )
@@ -121,5 +122,5 @@ def test_tag_form(active_client, result, endpoint, set_tag_form_post_data, image
                 > 0) == result, (
             f'Проверьте что {"анонимный" if result else "зарегистрированный"} '
             f'пользователь {"не" if not result else ""} может добавлять теги '
-            f'изображениямпш'
+            f'изображениям'
         )
