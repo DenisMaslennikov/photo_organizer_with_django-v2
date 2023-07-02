@@ -17,7 +17,7 @@
       {{ image.created|date:'d-m-Y H:i' }}
     </span>
     {% include 'gallery/includes/taglist.html' with tags=image.tags.all %}
-    {% if user.is_authenticated %}
+    {% if tag_form %}
       <span>
         <input type="checkbox" value="{{ image.pk }}" name="choices" form="tag_selector" class="form-check-input">
       </span>
