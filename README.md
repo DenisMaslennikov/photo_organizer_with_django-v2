@@ -1,5 +1,5 @@
 # Органайзер изображений на Django
-С помощью органайзера изображений вы сможете:
+## С помощью органайзера изображений вы сможете:
 1. Хранить изображения разных пользователей
 2. Пользователи могут тегать свои изображения
 3. Искать изображения по тегу или набору тегов
@@ -12,14 +12,50 @@
 
 
 В планах:
-1. Расширенный поиск по выражениям типа (Москва|Тула)&(Настоящее|Будущее)&-Набережная
-2. Улучшение покрытия кода тестами
-3. Тесты для API
+1. Улучшение покрытия кода тестами
+2. Тесты для API
 
 
-Для более подробного описания проекта смотрите [patch_note.md]
+Для более подробного описания возможностей проекта смотрите [patch_note.md]
 
 **Проект специально загружен на GitHub с изображениями и базой данных для облегчения демонстрации**
 
- [patch_note.md]: <https://github.com/DenisMaslennikov/photo_organizer_with_django-v2/blob/main/patch_note.md>
+## Переменные окружения:
+Для работы проекта необходимо создать файл `.env` в директории `play_with_image` в котором задается `SECRET_KEY` в следующем виде:
+```text
+SECRET_KEY=django-insecure-0w3%8bo50x)h4(#v&j$7&su6_x@3u5gdgfo5bg21n*&60%$vzg
+```
+Для генерации ключа можно использовать [генератор ключей]
+## Запуск проекта
+### Запуск в docker контейнере:
+В директории с проектом
+```commandline
+docker compose build
+docker compose up
+```
+### Запуск отладочного сервера под windows:
+В директории с проектом
+1. Создание виртуального окружения:
+```commandline
+python -m venv venv
+```
+2. Активация виртуального окружения:
+```commandline
+source venv\Scripts\activate  
+```
+Если возникла ошибка 'Имя "source" не распознано' или аналогичная:
+```commandline
+venv\Scripts\activate
+```
+3. Установка зависимостей:
+```commandline
+pip install -r requirements.txt
+```
+4. Запуск отладочного сервера:
+```commandline
+cd play_with_image
+python manage.py runserver
+```
 
+ [patch_note.md]: <https://github.com/DenisMaslennikov/photo_organizer_with_django-v2/blob/main/patch_note.md>
+ [генератор ключей]: <https://djecrety.ir/>
