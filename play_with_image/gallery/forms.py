@@ -1,7 +1,7 @@
 from django import forms
 
-from tag_anything.models import TagCategory
 from image.models import Image
+from tag_anything.models import TagCategory
 
 
 class AssignTag(forms.Form):
@@ -11,17 +11,12 @@ class AssignTag(forms.Form):
     )
     name = forms.CharField(
         max_length=100,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control'
-            }),
-        empty_value='Введите тег',
-        label='Тег'
+        widget=forms.TextInput(attrs={"class": "form-control"}),
+        empty_value="Введите тег",
+        label="Тег",
     )
     category = forms.ModelChoiceField(
         queryset=TagCategory.objects.all(),
-        label='Категория',
-        widget=forms.Select(attrs={
-            'class': 'form-control'
-        })
+        label="Категория",
+        widget=forms.Select(attrs={"class": "form-control"}),
     )

@@ -4,31 +4,25 @@ from .models import Image
 from .utils import get_average_image_hash
 
 
-
-
 class ImageAddForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ['name', 'image', 'tags', 'private']
+        fields = ["name", "image", "tags", "private"]
         widgets = {
-            'name': forms.TextInput(attrs={
-                'class': 'form-control rounded-0'
-            }),
-            'image': forms.FileInput(attrs={
-                'class': 'form-control form-control-sm'
-            }),
-            'tags': forms.SelectMultiple(attrs={
-                'class': 'form-select'
-            }),
+            "name": forms.TextInput(attrs={"class": "form-control rounded-0"}),
+            "image": forms.FileInput(
+                attrs={"class": "form-control form-control-sm"}
+            ),
+            "tags": forms.SelectMultiple(attrs={"class": "form-select"}),
         }
 
     def save(self, commit=True):
-        image_hash = str(get_average_image_hash(self.cleaned_data['image']))
+        image_hash = str(get_average_image_hash(self.cleaned_data["image"]))
 
         image = Image(
-            image=self.cleaned_data['image'],
-            name=self.cleaned_data['name'],
-            private=self.cleaned_data['private'],
+            image=self.cleaned_data["image"],
+            name=self.cleaned_data["name"],
+            private=self.cleaned_data["private"],
             image_hash=image_hash,
             image_hash_part1=int(image_hash[:4], 16),
             image_hash_part2=int(image_hash[4:8], 16),
@@ -38,18 +32,15 @@ class ImageAddForm(forms.ModelForm):
         )
         if commit:
             image.save()
-            image.tags.add(*self.cleaned_data['tags'])
+            image.tags.add(*self.cleaned_data["tags"])
         return image
+
 
 class ImageUpdateForm(forms.ModelForm):
     class Meta:
         model = Image
-        fields = ('name', 'tags', 'private')
+        fields = ("name", "tags", "private")
         widgets = {
-            'name': forms.TextInput(attrs={
-                'class': 'form-control rounded-0'
-            }),
-            'tags': forms.SelectMultiple(attrs={
-                'class': 'form-select'
-            }),
+            "name": forms.TextInput(attrs={"class": "form-control rounded-0"}),
+            "tags": forms.SelectMultiple(attrs={"class": "form-select"}),
         }

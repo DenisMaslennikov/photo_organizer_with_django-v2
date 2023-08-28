@@ -4,7 +4,7 @@ from .models import Comment
 
 
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('text',)
+    list_display = ("text",)
 
 
 admin.site.register(Comment, CommentAdmin)

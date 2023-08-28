@@ -21,6 +21,8 @@
           {% bootstrap_form form %}
           {% bootstrap_button button_type="submit" content="Создать" %}
         </form>
+        <br>
+        <a href="{% url 'users:password_change' %}">Сменить пароль</a>
       </div>
     </div>
   </div>

@@ -149,3 +149,6 @@ dmypy.json
 
 sent_emails/
 
+# зип архивы
+.zip
+

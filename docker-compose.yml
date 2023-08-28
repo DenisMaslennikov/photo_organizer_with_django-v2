@@ -3,7 +3,6 @@ version: "3.8"
 services:
   nginx:
     build: ./nginx
-    image: nginx:latest
     container_name: "nginx_cont"
     volumes:
       - ./play_with_image/static:/home/www/static
