@@ -1,5 +1,5 @@
 import pytest
-from conftest import (
+from tests.conftest import (
     ADD_IMAGE_ENDPOINT,
     ADD_TAG,
     LIST_VIEW_ENDPOINTS,

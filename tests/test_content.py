@@ -1,7 +1,7 @@
 from django.conf import settings
 
 import pytest
-from conftest import (
+from tests.conftest import (
     IMAGE_DETAIL_ENDPOINT,
     LIST_VIEW_ENDPOINTS,
     USER_PROFILE_ENDPOINT

@@ -3,7 +3,7 @@ from http import HTTPStatus
 from django.urls import reverse
 
 import pytest
-from conftest import (
+from tests.conftest import (
     ANONYMOUS_ENDPOINTS,
     AUTH_USER_ENDPOINTS,
     LOGIN_REQURE_ENDPOINTS

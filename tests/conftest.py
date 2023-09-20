@@ -86,7 +86,7 @@ CAMERA_MODEL = "Canon 5d mark iv"
 COMMENT_AMOUNT = 10
 
 
-pytest_plugins = ["fixtures.urls", "fixtures.request_data"]
+pytest_plugins = ["tests.fixtures.urls", "tests.fixtures.request_data"]
 
 
 @pytest.fixture
