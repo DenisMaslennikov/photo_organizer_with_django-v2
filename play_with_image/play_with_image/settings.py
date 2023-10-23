@@ -221,6 +221,9 @@ EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails/"
 
 # Настройки логов.
+if not (os.path.exists(BASE_DIR / "logs")):
+    os.makedirs(BASE_DIR / "logs")
+
 LOG_FILE = BASE_DIR / "logs/log.log"
 LOG_LEVEL = 'INFO'
 
