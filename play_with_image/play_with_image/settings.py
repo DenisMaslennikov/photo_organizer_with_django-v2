@@ -17,6 +17,7 @@ from django.urls import reverse_lazy
 
 from dotenv import load_dotenv
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -61,6 +62,7 @@ INSTALLED_APPS = [
     "tag_anything.apps.TagAnythingConfig",
     "comment.apps.CommentConfig",
     "pages.apps.PagesConfig",
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
