@@ -67,7 +67,7 @@ jobs:
 
   send_message:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: build_photoorganiser_and_push_to_docker_hub
     steps:
     - name: Send message
       uses: appleboy/telegram-action@master
