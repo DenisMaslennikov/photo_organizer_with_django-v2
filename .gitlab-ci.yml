@@ -9,7 +9,7 @@ variables:
   POSTGRES_DB: db_name
   POSTGRES_USER: db_user
   POSTGRES_PASSWORD: db_password
-  DJANGO_DEBUG: 'True'
+  DJANGO_DEBUG: 'False'
   DJANGO_DB_HOST: postgres
   DJANGO_DB_PORT: 5432
   DJANGO_SECRET_KEY: __SECRET_KEY__
@@ -21,5 +21,5 @@ run_tests:
     - pip install --upgrade pip
     - pip install -r requirements.txt
   script:
-    - env
+    - flake8 .
     - pytest
