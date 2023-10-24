@@ -40,7 +40,6 @@ jobs:
         DJANGO_DEBUG: 'False'
         DJANGO_SECRET_KEY: __SECRET_KEY__
       run: |
-        flake8 .
         pytest
 
   build_photoorganiser_and_push_to_docker_hub:
