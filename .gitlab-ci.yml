@@ -20,6 +20,5 @@ run_tests:
   before_script:
     - pip install --upgrade pip
     - pip install -r requirements.txt
-    - cd play_with_image
-    - python manage.py migrate --noinput
+    - python ./play_with_image/manage.py migrate --noinput
   script: pytest
