@@ -59,7 +59,8 @@ jobs:
       - name: Push to DockerHub
         uses: docker/build-push-action@v4
         with:
-          context: ./django/
+          context: ./
+          dockerfile: ./django/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/photoorganizer:latest
 
