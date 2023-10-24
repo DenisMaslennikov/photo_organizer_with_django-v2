@@ -30,17 +30,16 @@ jobs:
         python -m pip install --upgrade pip 
         pip install flake8==6.0.0 flake8-isort==6.0.0
         pip install -r requirements.txt
-    - name: Test with flake8 and pytest tests
+    - name: run pytest tests
       env:
         POSTGRES_USER: django_user
         POSTGRES_PASSWORD: django_password
         POSTGRES_DB: django_db
         DJANGO_DB_HOST: 127.0.0.1
         DJANGO_DB_PORT: 5432
-        DJANGO_DEBUG: 'False'
+        DJANGO_DEBUG: 'True'
         DJANGO_SECRET_KEY: __SECRET_KEY__
-      run: |
-        pytest
+      run: pytest
 
   build_photoorganiser_and_push_to_docker_hub:
     name: Push Docker image to DockerHub
