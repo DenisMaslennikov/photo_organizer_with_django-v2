@@ -8,8 +8,6 @@ services:
       - media:/home/www/media
     ports:
       - 80:80
-    depends_on:
-      - django_app
   django_app:
     image: python
     build:
