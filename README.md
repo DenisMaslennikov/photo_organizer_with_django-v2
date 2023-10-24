@@ -21,16 +21,12 @@
 **Проект специально загружен на GitHub с изображениями и базой данных для облегчения демонстрации**
 
 ## Переменные окружения:
-Для работы проекта необходимо создать файл `.env` в директории `play_with_image` в котором задается `SECRET_KEY` в следующем виде:
-```text
-SECRET_KEY=django-insecure-0w3%8bo50x)h4(#v&j$7&su6_x@3u5gdgfo5bg21n*&60%$vzg
-```
-Для генерации ключа можно использовать [генератор ключей]
+Для работы проекта необходимо создать файл `.env` в директории `play_with_image` в котором задается переменные окружения в качестве шаблона используйте `.env.template`
+
 ## Запуск проекта
 ### Запуск в docker контейнере:
 В директории с проектом
 ```commandline
-docker compose build
 docker compose up
 ```
 ### Запуск отладочного сервера под windows:
@@ -58,4 +54,3 @@ python manage.py runserver
 ```
 
  [patch_note.md]: <https://github.com/DenisMaslennikov/photo_organizer_with_django-v2/blob/main/patch_note.md>
- [генератор ключей]: <https://djecrety.ir/>

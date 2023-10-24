@@ -28,13 +28,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DJANGO_DEBUG') == 'True'
 
 load_dotenv(BASE_DIR / ".env")
-if not os.getenv("SECRET_KEY") and DEBUG:
+if not os.getenv("DJANGO_SECRET_KEY") and DEBUG:
     SECRET_KEY = "django-insecure-111111111111111SS"
 else:
-    SECRET_KEY = os.getenv("SECRET_KEY")
+    SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 
 ALLOWED_HOSTS = [
@@ -115,17 +115,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "play_with_image.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB'),
+        'USER': os.getenv('POSTGRES_USER'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+        'HOST': os.getenv('DJANGO_DB_HOST'),
+        'PORT': os.getenv('DJANGO_DB_PORT'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -163,7 +165,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-STATIC_ROOT = BASE_DIR / "static/"
+STATIC_ROOT = "/static"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static_dev/",
@@ -176,7 +178,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.User"
 
-MEDIA_ROOT = BASE_DIR / "media/"
+MEDIA_ROOT = "/media"
 
 MEDIA_URL = "/media/"
 

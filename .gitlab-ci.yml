@@ -1,4 +1,25 @@
+stages:
+  - test
+
+default:
+  services:
+    - postgres:13.10
+
+variables:
+  POSTGRES_DB: db_name
+  POSTGRES_USER: db_user
+  POSTGRES_PASSWORD: db_password
+  DJANGO_DEBUG: False
+  DJANGO_DB_HOST: db
+  DJANGO_DB_PORT: 5432
+  DJANGO_SECRET_KEY: __SECRET_KEY__
+
 run_tests:
-  image: python:3.11-bookworm
-  before_script: pip install -r requirements.txt
+  image: python:3.11
+  stage: test
+  before_script:
+    - pip install --upgrade pip
+    - pip install -r requirements.txt
+    - cd play_with_image
+    - python manage.py migrate --noinput
   script: pytest

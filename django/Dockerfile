@@ -1,4 +1,4 @@
-FROM python
+FROM python:3.11
 
 WORKDIR /play_with_image
 
