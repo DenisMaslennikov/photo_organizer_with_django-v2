@@ -4,23 +4,21 @@ services:
   nginx:
     build: ./nginx
     volumes:
-      - static:/home/www/static
-      - media:/home/www/media
+      - django_static:/home/www/static
+      - django_media:/home/www/media
     ports:
       - 80:80
   django_app:
     build:
       context: ./
       dockerfile: ./django/Dockerfile
-    ports:
-      - 8001:8001
     command: bash /play_with_image/run_server.sh
     env_file:
       - "play_with_image/.env"
     volumes:
-      - ./play_with_image:/play_with_image
-      - static:/static
-      - media:/media
+      - django_static:/static
+      - django_media:/media
+      - django_logs:/play_with_image/logs
     depends_on:
       - db
   db:
@@ -32,7 +30,8 @@ services:
 
 volumes:
   pg_data:
-  static:
-  media:
+  django_static:
+  django_media:
+  django_logs:
 
 

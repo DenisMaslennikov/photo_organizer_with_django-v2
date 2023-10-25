@@ -62,14 +62,12 @@ INSTALLED_APPS = [
     "tag_anything.apps.TagAnythingConfig",
     "comment.apps.CommentConfig",
     "pages.apps.PagesConfig",
-
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "debug_toolbar",
     "django_bootstrap5",
     "sorl.thumbnail",
     "rest_framework",
@@ -77,6 +75,8 @@ INSTALLED_APPS = [
     "django_filters",
     "drf_spectacular",
 ]
+if DEBUG:
+    INSTALLED_APPS.append("debug_toolbar")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
