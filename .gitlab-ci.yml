@@ -33,6 +33,7 @@ deploy_to_server:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - echo "$SSH_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - chmod 400 ~/.ssh/id_rsa
     - eval $(ssh-agent -s)
     - ssh-add ~/.ssh/id_rsa
     - ssh-keygen -p -P $SSH_PASSPHRASE -N "" -f ~/.ssh/id_rsa
