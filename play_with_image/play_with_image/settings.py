@@ -43,6 +43,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "django",
+    'photoorganizer.hopto.org',
 ]
 
 CSRF_TRUSTED_ORIGINS = [
@@ -51,6 +52,9 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost",
     "http://127.0.0.1",
     "http://django",
+    'http://photoorganizer.hopto.org',
+    'https://photoorganizer.hopto.org',
+
 ]
 
 # Application definition

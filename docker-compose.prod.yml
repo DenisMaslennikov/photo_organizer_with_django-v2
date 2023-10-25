@@ -7,7 +7,7 @@ services:
       - django_static:/home/www/static
       - django_media:/home/www/media
     ports:
-      - 80:80
+      - 8080:80
   django_app:
     image: ktotom7/photoorganizer:latest
     ports:
