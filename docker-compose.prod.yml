@@ -2,26 +2,20 @@ version: "3.8"
 
 services:
   nginx:
-    build: ./nginx
+    image: ktotom7/photoorganizer_gateway:latest
     volumes:
       - static:/home/www/static
       - media:/home/www/media
     ports:
       - 80:80
-    depends_on:
-      - django_app
   django_app:
-    image: python
-    build:
-      context: ./
-      dockerfile: ./django/Dockerfile
+    image: ktotom7/photoorganizer:latest
     ports:
       - 8001:8001
     command: bash /play_with_image/run_server.sh
     env_file:
       - "play_with_image/.env"
     volumes:
-      - ./play_with_image:/play_with_image
       - static:/static
       - media:/media
     depends_on:

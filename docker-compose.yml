@@ -9,7 +9,6 @@ services:
     ports:
       - 80:80
   django_app:
-    image: python
     build:
       context: ./
       dockerfile: ./django/Dockerfile
