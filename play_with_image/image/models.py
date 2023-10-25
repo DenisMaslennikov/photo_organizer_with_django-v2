@@ -45,6 +45,7 @@ class Image(models.Model):
         to=Tag,
         verbose_name="Теги",
         through="ImageTag",
+        null=True,
     )
 
     created = models.DateTimeField(
