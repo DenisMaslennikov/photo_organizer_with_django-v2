@@ -37,7 +37,7 @@ deploy_to_server:
     - eval $(ssh-agent -s)
     - ssh-keygen -p -P $SSH_PASSPHRASE -N "" -f ~/.ssh/id_rsa
     - ssh-add ~/.ssh/id_rsa
-    - ssh-keyscan -H '$HOST' >> ~/.ssh/known_host
+    - ssh-keyscan -H $HOST >> ~/.ssh/known_host
   script:
     - scp -i ~/.ssh/id_rsa docker-compose.prod.yml $USER@$HOST:~/photoorganizer/
     - ssh -i ~/.ssh/id_rsa $USER@$HOST
