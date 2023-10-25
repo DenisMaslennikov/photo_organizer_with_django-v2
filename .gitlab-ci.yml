@@ -36,8 +36,7 @@ deploy_to_server:
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -H $HOST >> ~/.ssh/known_host
   script:
-    - cat ~/.ssh/id_rsa
-    - scp -i ~/.ssh/id_rsa docker-compose.prod.yml $USER@$HOST:~/photoorganizer/
+    # - scp -i ~/.ssh/id_rsa docker-compose.prod.yml $USER@$HOST:~/photoorganizer/
     - ssh -i ~/.ssh/id_rsa $USER@$HOST
     - cd photoorganizer
     - sudo docker compose -f docker-compose.prod.yml pull
