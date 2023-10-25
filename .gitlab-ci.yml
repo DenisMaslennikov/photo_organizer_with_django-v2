@@ -37,10 +37,4 @@ deploy_to_server:
     - ssh-keyscan -H $HOST >> ~/.ssh/known_host
   script:
     - scp -oStrictHostKeyChecking=no docker-compose.prod.yml $USER@$HOST:~/photoorganizer/
-    - ssh -oStrictHostKeyChecking=no $USER@$HOST
-    - ls
-    - pwd
-    - cd photoorganizer
-    - sudo docker compose -f docker-compose.prod.yml pull
-    - sudo docker compose -f docker-compose.prod.yml down
-    - sudo docker compose -f docker-compose.prod.yml up -d
+    - ssh -oStrictHostKeyChecking=no $USER@$HOST 'cd photoorganizer && sudo docker compose -f docker-compose.prod.yml pull && sudo docker compose -f docker-compose.prod.yml down && sudo docker compose -f docker-compose.prod.yml up -d'
