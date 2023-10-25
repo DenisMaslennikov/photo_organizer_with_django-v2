@@ -30,8 +30,6 @@ deploy_to_server:
   stage: deploy
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client  -y )'
-    - chmod 400 "$SSH_KEY"
-    - ssh-add "$SSH_KEY"
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
     - eval $(ssh-agent -s)
