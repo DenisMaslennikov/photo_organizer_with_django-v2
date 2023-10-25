@@ -38,6 +38,8 @@ deploy_to_server:
   script:
     - scp -oStrictHostKeyChecking=no docker-compose.prod.yml $USER@$HOST:~/photoorganizer/
     - ssh -oStrictHostKeyChecking=no $USER@$HOST
+    - ls
+    - pwd
     - cd photoorganizer
     - sudo docker compose -f docker-compose.prod.yml pull
     - sudo docker compose -f docker-compose.prod.yml down
