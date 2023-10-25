@@ -2,22 +2,19 @@ stages:
   - test
   - deploy
 
-default:
-  services:
-    - postgres:13.10
-
-variables:
-  POSTGRES_DB: db_name
-  POSTGRES_USER: db_user
-  POSTGRES_PASSWORD: db_password
-  DJANGO_DEBUG: 'False'
-  DJANGO_DB_HOST: postgres
-  DJANGO_DB_PORT: 5432
-  DJANGO_SECRET_KEY: __SECRET_KEY__
-
 run_tests:
   image: python:3.11
   stage: test
+  services:
+    - postgres:13.10
+  variables:
+    POSTGRES_DB: db_name
+    POSTGRES_USER: db_user
+    POSTGRES_PASSWORD: db_password
+    DJANGO_DEBUG: 'False'
+    DJANGO_DB_HOST: postgres
+    DJANGO_DB_PORT: 5432
+    DJANGO_SECRET_KEY: __SECRET_KEY__
   before_script:
     - pip install --upgrade pip
     - pip install -r requirements.txt
@@ -39,6 +36,7 @@ deploy_to_server:
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -H $HOST >> ~/.ssh/known_host
   script:
+    - cat ~/.ssh/id_rsa
     - scp -i ~/.ssh/id_rsa docker-compose.prod.yml $USER@$HOST:~/photoorganizer/
     - ssh -i ~/.ssh/id_rsa $USER@$HOST
     - cd photoorganizer
