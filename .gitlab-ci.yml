@@ -1,6 +1,6 @@
 stages:
-  - test
   - build
+  - test
   - deploy
 
 run_tests:
@@ -26,6 +26,8 @@ run_tests:
 build_photoorganizer_image_and_upload_to_docker_hub:
   image: docker:latest
   stage: build
+  services:
+    - docker:dind
   variables:
     CI_REGISTRY: docker.io
     CI_REGISTRY_IMAGE: index.${CI_REGISTRY}/${CI_REGISTRY_USER}/photoorganizer
