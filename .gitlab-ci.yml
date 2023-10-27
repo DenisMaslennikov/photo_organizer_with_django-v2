@@ -27,9 +27,10 @@ build_photoorganizer_image_and_upload_to_docker_hub:
   image: docker:latest
   stage: build
   variables:
+    CI_REGISTRY: docker.io
     CI_REGISTRY_IMAGE: index.${CI_REGISTRY}/${CI_REGISTRY_USER}/photoorganizer
   before_script:
-    - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}"
+    - docker login -u "${CI_REGISTRY_USER}" -p "${CI_REGISTRY_PASSWORD}" ${CI_REGISTRY}
   script:
     - docker build --file ./django/Dockerfile -t {CI_REGISTRY_USER}/photoorganizer:latest
     - docker push {CI_REGISTRY_USER}/photoorganizer:latest
