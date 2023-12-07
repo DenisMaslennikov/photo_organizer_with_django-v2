@@ -33,5 +33,3 @@ volumes:
   django_static:
   django_media:
   django_logs:
-
-
