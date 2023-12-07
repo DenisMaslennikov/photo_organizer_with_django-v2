@@ -21,6 +21,7 @@
 Для более подробного описания возможностей проекта смотрите [patch_note.md]
 
 ## Стек:
+Django 4.2, DRF 3.14, pytest, Gunicorn, sorl-thumbnail, django-filter, exif, ImageHash, drf-spectacular.
 
 **Проект специально загружен на GitHub с изображениями и базой данных sqlite для облегчения демонстрации**
 
