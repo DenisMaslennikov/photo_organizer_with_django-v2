@@ -25,12 +25,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
+load_dotenv(BASE_DIR / ".env")
 # SECURITY WARNING: keep the secret key used in production secret!
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJANGO_DEBUG').lower() == 'true'
 
-load_dotenv(BASE_DIR / ".env")
 if not os.getenv("DJANGO_SECRET_KEY") and DEBUG:
     SECRET_KEY = "django-insecure-111111111111111SS"
 else:
@@ -92,7 +92,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 if DEBUG:
-    MIDDLEWARE.append(["debug_toolbar.middleware.DebugToolbarMiddleware"])
+    MIDDLEWARE.append("debug_toolbar.middleware.DebugToolbarMiddleware")
 
 INTERNAL_IPS = [
     "127.0.0.1",
